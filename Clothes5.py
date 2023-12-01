@@ -354,32 +354,40 @@ def main_page():
 
 
     # Input field for user name
+    # Check if the user has already submitted their name
+if 'user_name' in st.session_state and st.session_state['user_name']:
+    user_name = st.session_state['user_name']
+else:
+    # Input field for user name
     user_name = st.text_input('Enter your user name:', key='user_name')
+
+    # Button to confirm user name
+    if st.button('Confirm User Name'):
+        st.session_state['user_name'] = user_name
 
     # Operations to perform if the user has entered a name
     # Reference:
-    if st.button('Confirm User Name'):
-        if user_name:
-            with sqlite3.connect('wardrobe.db') as DB: # To connect to the wardrobe database
-                create_user_table(user_name, DB) # To create a table for the user if it does not exist
-                df_wardrobe = get_wardrobe_items(user_name, DB) # To fetch the current wardrobe items from the database
+    if user_name:
+        with sqlite3.connect('wardrobe.db') as DB: # To connect to the wardrobe database
+            create_user_table(user_name, DB) # To create a table for the user if it does not exist
+            df_wardrobe = get_wardrobe_items(user_name, DB) # To fetch the current wardrobe items from the database
 
             # To display the user's current wardrobe if it's not empty
-                if not df_wardrobe.empty:
-                    print("DataFrame Columns:", df_wardrobe.columns)
-                    st.header('Your Current Wardrobe')
-                    st.write('It appears that you have the following wardrobe items registered on NimbusWardrobe:')
+            if not df_wardrobe.empty:
+                print("DataFrame Columns:", df_wardrobe.columns)
+                st.header('Your Current Wardrobe')
+                st.write('It appears that you have the following wardrobe items registered on NimbusWardrobe:')
 
                 # To loop through categories and display each category's items in the wardrobe
-                    categories = ['Outerwear', 'Topwear', 'Layering', 'Bottomwear', 'Footwear', 'Accessories']
-                    for category in categories:
-                        st.subheader(f"{category} Items")
-                        # Ensure the column name used here matches exactly with what's printed above
-                        df_category = df_wardrobe[df_wardrobe['category'] == category]
-                        if not df_category.empty:
-                            st.dataframe(df_category)
-                        else:
-                            st.write(f"No items found in the {category} category.")
+                categories = ['Outerwear', 'Topwear', 'Layering', 'Bottomwear', 'Footwear', 'Accessories']
+                for category in categories:
+                    st.subheader(f"{category} Items")
+                    # Ensure the column name used here matches exactly with what's printed above
+                    df_category = df_wardrobe[df_wardrobe['category'] == category]
+                    if not df_category.empty:
+                        st.dataframe(df_category)
+                    else:
+                        st.write(f"No items found in the {category} category.")
 
 
     # Section for managing the user's wardrobe
