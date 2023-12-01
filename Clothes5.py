@@ -358,27 +358,28 @@ def main_page():
 
     # Operations to perform if the user has entered a name
     # Reference:
-    if user_name:
-        with sqlite3.connect('wardrobe.db') as DB: # To connect to the wardrobe database
-            create_user_table(user_name, DB) # To create a table for the user if it does not exist
-            df_wardrobe = get_wardrobe_items(user_name, DB) # To fetch the current wardrobe items from the database
+    if st.button = ('Confirm'):
+        if user_name:
+            with sqlite3.connect('wardrobe.db') as DB: # To connect to the wardrobe database
+                create_user_table(user_name, DB) # To create a table for the user if it does not exist
+                df_wardrobe = get_wardrobe_items(user_name, DB) # To fetch the current wardrobe items from the database
 
             # To display the user's current wardrobe if it's not empty
-            if not df_wardrobe.empty:
-                print("DataFrame Columns:", df_wardrobe.columns)
-                st.header('Your Current Wardrobe')
-                st.write('It appears that you have the following wardrobe items registered on NimbusWardrobe:')
+                if not df_wardrobe.empty:
+                    print("DataFrame Columns:", df_wardrobe.columns)
+                    st.header('Your Current Wardrobe')
+                    st.write('It appears that you have the following wardrobe items registered on NimbusWardrobe:')
 
                 # To loop through categories and display each category's items in the wardrobe
-                categories = ['Outerwear', 'Topwear', 'Layering', 'Bottomwear', 'Footwear', 'Accessories']
-                for category in categories:
-                    st.subheader(f"{category} Items")
-                    # Ensure the column name used here matches exactly with what's printed above
-                    df_category = df_wardrobe[df_wardrobe['category'] == category]
-                    if not df_category.empty:
-                        st.dataframe(df_category)
-                    else:
-                        st.write(f"No items found in the {category} category.")
+                    categories = ['Outerwear', 'Topwear', 'Layering', 'Bottomwear', 'Footwear', 'Accessories']
+                    for category in categories:
+                        st.subheader(f"{category} Items")
+                        # Ensure the column name used here matches exactly with what's printed above
+                        df_category = df_wardrobe[df_wardrobe['category'] == category]
+                        if not df_category.empty:
+                            st.dataframe(df_category)
+                        else:
+                            st.write(f"No items found in the {category} category.")
 
 
     # Section for managing the user's wardrobe
