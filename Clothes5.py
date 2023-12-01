@@ -354,16 +354,7 @@ def main_page():
 
 
     # Input field for user name
-    # Check if the user has already submitted their name
-if 'user_name' in st.session_state and st.session_state['user_name']:
-    user_name = st.session_state['user_name']
-else:
-    # Input field for user name
     user_name = st.text_input('Enter your user name:', key='user_name')
-
-    # Button to confirm user name
-    if st.button('Confirm User Name'):
-        st.session_state['user_name'] = user_name
 
     # Operations to perform if the user has entered a name
     # Reference:
