@@ -358,7 +358,7 @@ def main_page():
 
     # Operations to perform if the user has entered a name
     # Reference:
-    if st.button = ('Confirm'):
+    if st.button('Confirm'):
         if user_name:
             with sqlite3.connect('wardrobe.db') as DB: # To connect to the wardrobe database
                 create_user_table(user_name, DB) # To create a table for the user if it does not exist
